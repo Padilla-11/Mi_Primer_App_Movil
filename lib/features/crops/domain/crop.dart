@@ -54,6 +54,9 @@ class Crop {
   /// Indica si el cultivo tiene al menos una fotografía registrada.
   bool get hasPhotos => photos.isNotEmpty;
 
+  /// Indica si el cultivo se encuentra en una etapa en la que puede ser cosechado.
+  bool get canBeHarvested => state is Growing;
+
   /// Indica si la fecha estimada de cosecha ya pasó.
   ///
   /// El momento actual se recibe como parámetro para que la regla sea
