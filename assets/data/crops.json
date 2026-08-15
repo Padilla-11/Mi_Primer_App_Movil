@@ -1,0 +1,45 @@
+[
+  {
+    "id": "cult-001",
+    "name": "Maíz híbrido Valledupar",
+    "type": "Corn",
+    "period": {
+      "plantingDate": "2026-07-15T13:00:00Z",
+      "estimatedHarvestDate": "2026-11-15T13:00:00Z"
+    },
+    "state": {
+      "type": "growing",
+      "lastInspection": "2026-08-14T14:00:00Z",
+      "observations": "El cultivo presenta crecimiento uniforme y buen estado general."
+    },
+    "responsibleId": "usr-001"
+  },
+  {
+    "id": "cult-002",
+    "name": "Tomate Santa Elena",
+    "type": "Tomato",
+    "period": {
+        "estimatedHarvestDate": "2026-12-15T13:00:00Z"
+    },
+    "state": {
+        "type": "planned",
+        "plannedDate": "2026-08-14T15:30:00Z"
+    },
+    "responsibleId": "usr-002"
+  },
+  {
+    "id": "cult-003",
+    "name": "Yuca La Esperanza",
+    "type": "Cassava",
+    "period": {
+      "plantingDate": "2026-01-20T13:00:00Z",
+      "estimatedHarvestDate": "2026-08-10T13:00:00Z"
+    },
+    "state": {
+      "type": "harvested",
+      "harvestDate": "2026-08-10T15:00:00Z",
+      "harvestedQuantityKg": 1840
+    },
+    "responsibleId": "usr-003"
+  }
+]
