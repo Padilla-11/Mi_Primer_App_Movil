@@ -1,7 +1,7 @@
-/// Lectura defensiva de mapas JSON.
-///
-/// Estas funciones validan los datos que llegan desde fuentes externas y
-/// generan errores que indican exactamente qué campo es inválido.
+// Lectura defensiva de mapas JSON.
+//
+// Estas funciones validan los datos que llegan desde fuentes externas y
+// generan errores que indican exactamente qué campo es inválido.
 
 /// Indica que un campo del JSON no tiene la forma esperada.
 class InvalidField implements Exception {
@@ -36,11 +36,7 @@ String? readOptionalText(Map<String, dynamic> json, String field) {
 
   if (value is String) return value;
 
-  throw InvalidField(
-    field,
-    'debe ser un texto o venir ausente',
-    value,
-  );
+  throw InvalidField(field, 'debe ser un texto o venir ausente', value);
 }
 
 /// Lee un número y lo convierte a double.
@@ -72,31 +68,20 @@ DateTime readDate(Map<String, dynamic> json, String field) {
   final value = json[field];
 
   if (value is! String) {
-    throw InvalidField(
-      field,
-      'debe ser una fecha ISO 8601 en texto',
-      value,
-    );
+    throw InvalidField(field, 'debe ser una fecha ISO 8601 en texto', value);
   }
 
   final date = DateTime.tryParse(value);
 
   if (date == null) {
-    throw InvalidField(
-      field,
-      'no es una fecha ISO 8601',
-      value,
-    );
+    throw InvalidField(field, 'no es una fecha ISO 8601', value);
   }
 
   return date.toUtc();
 }
 
 /// Lee un objeto JSON como un mapa.
-Map<String, dynamic> readMap(
-  Map<String, dynamic> json,
-  String field,
-) {
+Map<String, dynamic> readMap(Map<String, dynamic> json, String field) {
   final value = json[field];
 
   if (value is Map<String, dynamic>) {
@@ -109,10 +94,7 @@ Map<String, dynamic> readMap(
 /// Lee una lista de textos.
 ///
 /// Si el campo no existe o es null, devuelve una lista vacía.
-List<String> readStrings(
-  Map<String, dynamic> json,
-  String field,
-) {
+List<String> readStrings(Map<String, dynamic> json, String field) {
   final value = json[field];
 
   if (value == null) return const <String>[];
