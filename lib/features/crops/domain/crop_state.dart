@@ -1,8 +1,8 @@
 import 'package:flutter_application_1/core/json.dart';
 
-/// Representa el estado actual del ciclo de vida de un cultivo.
-///
-/// Cada estado es un tipo diferente y contiene únicamente los datos que
+// Representa el estado actual del ciclo de vida de un cultivo.
+//
+// Cada estado es un tipo diferente y contiene únicamente los datos que
 /// tienen sentido mientras el cultivo se encuentra en ese estado.
 sealed class CropState {
   const CropState();
@@ -12,122 +12,95 @@ sealed class CropState {
     final type = readText(json, 'type');
 
     return switch (type) {
-      'planned' => const Planned(),
-      'planted' => Planted(readDate(json, 'plantedAt')),
-      'growing' => Growing(readDate(json, 'startedAt')),
-      'harvested' => Harvested(
-        readDate(json, 'harvestedAt'),
-        readDecimal(json, 'yieldKg'),
+      'planned' => Planned(readDate(json, 'plannedDate')),
+      'growing' => Growing(
+        readDate(json, 'lastInspection'),
+        readText(json, 'observations'),
       ),
-      'cancelled' => Cancelled(readText(json, 'reason')),
+      'harvested' => Harvested(
+        readDate(json, 'harvestDate'),
+        readDecimal(json, 'harvestedQuantityKg'),
+      ),
       _ => throw InvalidField('state.type', 'must be a known crop state', type),
     };
   }
 
   /// Convierte el estado del dominio a su representación JSON.
   Map<String, dynamic> toJson() => switch (this) {
-    Planned() => {'type': 'planned'},
-    Planted(:final plantedAt) => {
-      'type': 'planted',
-      'plantedAt': plantedAt.toUtc().toIso8601String(),
+    Planned(:final plannedDate) => {
+      'type': 'planned',
+      'plannedDate': plannedDate.toUtc().toIso8601String(),
     },
-    Growing(:final startedAt) => {
+    Growing(:final lastInspection, :final observations) => {
       'type': 'growing',
-      'startedAt': startedAt.toUtc().toIso8601String(),
+      'lastInspection': lastInspection.toUtc().toIso8601String(),
+      'observations': observations,
     },
-    Harvested(:final harvestedAt, :final yieldKg) => {
+    Harvested(:final harvestDate, :final harvestedQuantityKg) => {
       'type': 'harvested',
-      'harvestedAt': harvestedAt.toUtc().toIso8601String(),
-      'yieldKg': yieldKg,
+      'harvestDate': harvestDate.toUtc().toIso8601String(),
+      'harvestedQuantityKg': harvestedQuantityKg,
     },
-    Cancelled(:final reason) => {'type': 'cancelled', 'reason': reason},
   };
 }
 
-/// Indica que el cultivo está planeado pero todavía no ha sido sembrado.
+/// El cultivo está planificado, pero todavía no está en crecimiento.
 final class Planned extends CropState {
-  const Planned();
+  const Planned(this.plannedDate);
 
-  @override
-  bool operator ==(Object other) => other is Planned;
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  String toString() => 'Planned()';
-}
-
-/// Indica que el cultivo ya fue sembrado.
-final class Planted extends CropState {
-  const Planted(this.plantedAt);
-
-  final DateTime plantedAt;
+  final DateTime plannedDate;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Planted && other.plantedAt == plantedAt;
+      other is Planned && other.plannedDate == plannedDate;
 
   @override
-  int get hashCode => Object.hash(runtimeType, plantedAt);
+  int get hashCode => Object.hash(runtimeType, plannedDate);
 
   @override
-  String toString() => 'Planted($plantedAt)';
+  String toString() => 'Planned($plannedDate)';
 }
 
-/// Indica que el cultivo se encuentra actualmente en crecimiento.
+/// El cultivo está creciendo y tiene información de su última inspección.
 final class Growing extends CropState {
-  const Growing(this.startedAt);
+  const Growing(this.lastInspection, this.observations);
 
-  final DateTime startedAt;
+  final DateTime lastInspection;
+  final String observations;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Growing && other.startedAt == startedAt;
+      other is Growing &&
+          other.lastInspection == lastInspection &&
+          other.observations == observations;
 
   @override
-  int get hashCode => Object.hash(runtimeType, startedAt);
+  int get hashCode => Object.hash(runtimeType, lastInspection, observations);
 
   @override
-  String toString() => 'Growing($startedAt)';
+  String toString() => 'Growing($lastInspection, $observations)';
 }
 
-/// Indica que el cultivo ya fue cosechado.
+/// El cultivo ya fue cosechado y registra la cantidad obtenida.
 final class Harvested extends CropState {
-  const Harvested(this.harvestedAt, this.yieldKg);
+  const Harvested(this.harvestDate, this.harvestedQuantityKg);
 
-  final DateTime harvestedAt;
-  final double yieldKg;
+  final DateTime harvestDate;
+  final double harvestedQuantityKg;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is Harvested &&
-          other.harvestedAt == harvestedAt &&
-          other.yieldKg == yieldKg;
+          other.harvestDate == harvestDate &&
+          other.harvestedQuantityKg == harvestedQuantityKg;
 
   @override
-  int get hashCode => Object.hash(runtimeType, harvestedAt, yieldKg);
+  int get hashCode =>
+      Object.hash(runtimeType, harvestDate, harvestedQuantityKg);
 
   @override
-  String toString() => 'Harvested($harvestedAt, $yieldKg kg)';
-}
-
-/// Indica que el cultivo fue cancelado antes de completar su ciclo.
-final class Cancelled extends CropState {
-  const Cancelled(this.reason);
-
-  final String reason;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is Cancelled && other.reason == reason;
-
-  @override
-  int get hashCode => Object.hash(runtimeType, reason);
-
-  @override
-  String toString() => 'Cancelled($reason)';
+  String toString() => 'Harvested($harvestDate, $harvestedQuantityKg kg)';
 }
