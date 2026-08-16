@@ -1,7 +1,7 @@
 [
   {
     "id": "cult-001",
-    "name": "Maíz híbrido Valledupar",
+    "name": "Maíz Dulce",
     "type": "Corn",
     "period": {
       "plantingDate": "2026-07-15T13:00:00Z",
@@ -16,7 +16,7 @@
   },
   {
     "id": "cult-002",
-    "name": "Tomate Santa Elena",
+    "name": "Tomate Chonto",
     "type": "Tomato",
     "period": {
         "estimatedHarvestDate": "2026-12-15T13:00:00Z"
@@ -29,7 +29,7 @@
   },
   {
     "id": "cult-003",
-    "name": "Yuca La Esperanza",
+    "name": "Yuca Blanca",
     "type": "Cassava",
     "period": {
       "plantingDate": "2026-01-20T13:00:00Z",
