@@ -11,10 +11,8 @@ import 'package:flutter_application_1/features/crops/domain/crops_repository.dar
 typedef AssetReader = Future<String> Function(String path);
 
 class CropsLocal implements CropsRepository {
-  CropsLocal({
-    AssetReader? reader,
-    this.path = 'assets/data/crops.json',
-  }) : _reader = reader ?? rootBundle.loadString;
+  CropsLocal({AssetReader? reader, this.path = 'assets/data/crops.json'})
+    : _reader = reader ?? rootBundle.loadString;
 
   final AssetReader _reader;
   final String path;
@@ -33,19 +31,11 @@ class CropsLocal implements CropsRepository {
     final decoded = jsonDecode(raw);
 
     if (decoded is! List) {
-      throw const InvalidField(
-        '(root)',
-        'the file must contain a list',
-        null,
-      );
+      throw const InvalidField('(root)', 'the file must contain a list', null);
     }
 
     final crops = decoded
-        .map(
-          (item) => Crop.fromJson(
-            item as Map<String, dynamic>,
-          ),
-        )
+        .map((item) => Crop.fromJson(item as Map<String, dynamic>))
         .toList(growable: false);
 
     _cache = crops;

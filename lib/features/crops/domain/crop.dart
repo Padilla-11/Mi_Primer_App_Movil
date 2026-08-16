@@ -54,6 +54,5 @@ abstract class Crop with _$Crop {
   bool get canBeHarvested => state is Growing;
 
   /// Indica si la fecha estimada de cosecha ya pasó.
-  bool isOverdue(DateTime now) =>
-      now.isAfter(period.estimatedHarvestDate);
+  bool isOverdue(DateTime now) => now.isAfter(period.estimatedHarvestDate);
 }

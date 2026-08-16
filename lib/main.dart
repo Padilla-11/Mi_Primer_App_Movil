@@ -48,9 +48,7 @@ class _CropsPageState extends State<CropsPage> {
         future: _crops,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (snapshot.hasError) {
@@ -75,10 +73,7 @@ class _CropsPageState extends State<CropsPage> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Text(
-                      '${snapshot.error}',
-                      textAlign: TextAlign.center,
-                    ),
+                    Text('${snapshot.error}', textAlign: TextAlign.center),
                   ],
                 ),
               ),
@@ -92,10 +87,7 @@ class _CropsPageState extends State<CropsPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
-                    Icons.agriculture_outlined,
-                    size: 64,
-                  ),
+                  Icon(Icons.agriculture_outlined, size: 64),
                   SizedBox(height: 16),
                   Text(
                     'No hay cultivos registrados.',
@@ -141,18 +133,12 @@ class _CropsPageState extends State<CropsPage> {
       children: [
         const Text(
           'Resumen de cultivos',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 4),
         Text(
           '${crops.length} cultivos registrados',
-          style: TextStyle(
-            color: Colors.grey.shade600,
-            fontSize: 15,
-          ),
+          style: TextStyle(color: Colors.grey.shade600, fontSize: 15),
         ),
         const SizedBox(height: 16),
 
@@ -188,10 +174,7 @@ class _CropsPageState extends State<CropsPage> {
 
         const Text(
           'Tus cultivos',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ],
     );
@@ -215,20 +198,14 @@ class SummaryCard extends StatelessWidget {
     return Card(
       elevation: 0,
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 14,
-          horizontal: 8,
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
         child: Column(
           children: [
             Icon(icon, size: 25),
             const SizedBox(height: 8),
             Text(
               value,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 2),
             Text(
@@ -244,10 +221,7 @@ class SummaryCard extends StatelessWidget {
 }
 
 class CropCard extends StatelessWidget {
-  const CropCard({
-    required this.crop,
-    super.key,
-  });
+  const CropCard({required this.crop, super.key});
 
   final Crop crop;
 
@@ -322,9 +296,7 @@ class CropCard extends StatelessWidget {
                   child: _InfoItem(
                     icon: Icons.calendar_today_outlined,
                     label: 'Cosecha estimada',
-                    value: _formatDate(
-                      crop.period.estimatedHarvestDate,
-                    ),
+                    value: _formatDate(crop.period.estimatedHarvestDate),
                   ),
                 ),
                 Expanded(
@@ -354,72 +326,61 @@ class CropCard extends StatelessWidget {
         value: _formatDate(plannedDate),
       ),
 
-      Growing(
-        :final lastInspection,
-        :final observations,
-      ) =>
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _StateDetail(
-              icon: Icons.fact_check_outlined,
-              title: 'Última inspección',
-              value: _formatDate(lastInspection),
+      Growing(:final lastInspection, :final observations) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _StateDetail(
+            icon: Icons.fact_check_outlined,
+            title: 'Última inspección',
+            value: _formatDate(lastInspection),
+          ),
+          const SizedBox(height: 12),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.green.withValues(alpha: 0.07),
+              borderRadius: BorderRadius.circular(12),
             ),
-            const SizedBox(height: 12),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.green.withValues(alpha: 0.07),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.notes_outlined,
-                    size: 20,
-                    color: Colors.green.shade700,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.notes_outlined,
+                  size: 20,
+                  color: Colors.green.shade700,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    observations,
+                    style: const TextStyle(fontSize: 14, height: 1.4),
                   ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      observations,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        height: 1.4,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
 
-      Harvested(
-        :final harvestDate,
-        :final harvestedQuantityKg,
-      ) =>
-        Row(
-          children: [
-            Expanded(
-              child: _InfoItem(
-                icon: Icons.agriculture_outlined,
-                label: 'Fecha de cosecha',
-                value: _formatDate(harvestDate),
-              ),
+      Harvested(:final harvestDate, :final harvestedQuantityKg) => Row(
+        children: [
+          Expanded(
+            child: _InfoItem(
+              icon: Icons.agriculture_outlined,
+              label: 'Fecha de cosecha',
+              value: _formatDate(harvestDate),
             ),
-            Expanded(
-              child: _InfoItem(
-                icon: Icons.scale_outlined,
-                label: 'Cantidad obtenida',
-                value: '${_formatNumber(harvestedQuantityKg)} kg',
-              ),
+          ),
+          Expanded(
+            child: _InfoItem(
+              icon: Icons.scale_outlined,
+              label: 'Cantidad obtenida',
+              value: '${_formatNumber(harvestedQuantityKg)} kg',
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
     };
   }
 
@@ -500,10 +461,7 @@ class StatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 6,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(20),
@@ -536,11 +494,7 @@ class _InfoItem extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(
-          icon,
-          size: 20,
-          color: Colors.grey.shade600,
-        ),
+        Icon(icon, size: 20, color: Colors.grey.shade600),
         const SizedBox(width: 8),
         Expanded(
           child: Column(
@@ -548,10 +502,7 @@ class _InfoItem extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: TextStyle(
-                  color: Colors.grey.shade600,
-                  fontSize: 12,
-                ),
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
               ),
               const SizedBox(height: 3),
               Text(
@@ -584,29 +535,17 @@ class _StateDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(
-          icon,
-          size: 20,
-          color: Colors.grey.shade600,
-        ),
+        Icon(icon, size: 20, color: Colors.grey.shade600),
         const SizedBox(width: 10),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               title,
-              style: TextStyle(
-                color: Colors.grey.shade600,
-                fontSize: 12,
-              ),
+              style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
             ),
             const SizedBox(height: 3),
-            Text(
-              value,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            Text(value, style: const TextStyle(fontWeight: FontWeight.w600)),
           ],
         ),
       ],
