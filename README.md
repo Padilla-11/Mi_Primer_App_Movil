@@ -20,3 +20,6 @@ samples, guidance on mobile development, and a full API reference.
 
 ![alt text](flutter_doctor.png)
 
+## Freezed
+
+Decisión sobre Freezed: Se utiliza Freezed para generar automáticamente la igualdad, hashCode, toString y copyWith de la entidad Crop, reduciendo código repetitivo y evitando errores manuales. Se mantiene fromJson implementado manualmente para conservar los mensajes de validación específicos mediante InvalidField. La deserialización manual permite identificar exactamente qué campo del JSON es inválido.
